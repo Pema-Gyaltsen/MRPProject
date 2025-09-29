@@ -1,22 +1,11 @@
 package at.technikum.server.http;
 
 public enum Status {
+    OK(200), CREATED(201), NO_CONTENT(204),
+    BAD_REQUEST(400), UNAUTHORIZED(401), FORBIDDEN(403), NOT_FOUND(404),
+    CONFLICT(409),
+    INTERNAL_SERVER_ERROR(500);
 
-    OK(200, "OK");
-
-    private final int code;
-    private final String message;
-
-    Status(int code, String message) {
-        this.code = code;
-        this.message = message;
-    }
-
-    public int getCode() {
-        return code;
-    }
-
-    public String getMessage() {
-        return message;
-    }
+    public final int code;
+    Status(int c){ this.code = c; }
 }

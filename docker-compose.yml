@@ -1,0 +1,15 @@
+services:
+  db:
+    image: postgres:16
+    container_name: mrp-postgres
+    environment:
+      POSTGRES_DB: mrpdb
+      POSTGRES_USER: mrpuser
+      POSTGRES_PASSWORD: mrppass
+    ports:
+      - "5432:5432"
+    volumes:
+      - mrp_pgdata:/var/lib/postgresql/data
+      - ./db-init:/docker-entrypoint-initdb.d:ro
+volumes:
+  mrp_pgdata:

@@ -1,38 +1,27 @@
 package at.technikum.server.http;
 
+import com.sun.net.httpserver.HttpExchange;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.nio.charset.StandardCharsets;
+
 public class Response {
+    private final HttpExchange ex;
+    public Response(HttpExchange ex){ this.ex = ex; }
 
-    private Status status;
-
-    private ContentType contentType;
-
-    private String body;
-
-    public void setStatus(Status status) {
-        this.status = status;
+    public void send(Status status, String contentType, String body){
+        try {
+            byte[] bytes = body == null ? new byte[0] : body.getBytes(StandardCharsets.UTF_8);
+            ex.getResponseHeaders().set("Content-Type", contentType);
+            ex.sendResponseHeaders(status.code, bytes.length);
+            try(OutputStream os = ex.getResponseBody()){ os.write(bytes); }
+        } catch (IOException e){
+            e.printStackTrace();
+        } finally {
+            ex.close();
+        }
     }
 
-    public int getStatusCode() {
-        return status.getCode();
-    }
-
-    public String getStatusMessage() {
-        return status.getMessage();
-    }
-
-    public String getContentType() {
-        return contentType.getMimeType();
-    }
-
-    public void setContentType(ContentType contentType) {
-        this.contentType = contentType;
-    }
-
-    public String getBody() {
-        return body;
-    }
-
-    public void setBody(String body) {
-        this.body = body;
-    }
+    public void json(Status status, String json){ send(status, ContentType.JSON, json); }
+    public void text(Status status, String text){ send(status, ContentType.TEXT, text); }
 }

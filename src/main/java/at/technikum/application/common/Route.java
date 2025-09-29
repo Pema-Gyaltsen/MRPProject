@@ -1,21 +1,16 @@
 package at.technikum.application.common;
 
+import java.util.function.Consumer;
+import com.sun.net.httpserver.HttpExchange;
+
 public class Route {
+    public final String method;
+    public final String pathPattern; // e.g. ^/api/media/(\\d+)$
+    public final Consumer<HttpExchange> handler;
 
-    private final String path;
-
-    private final Controller controller;
-
-    public Route(String path, Controller controller) {
-        this.path = path;
-        this.controller = controller;
-    }
-
-    public String getPath() {
-        return path;
-    }
-
-    public Controller getController() {
-        return controller;
+    public Route(String method, String pattern, Consumer<HttpExchange> handler){
+        this.method = method;
+        this.pathPattern = pattern;
+        this.handler = handler;
     }
 }
