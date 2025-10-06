@@ -1,28 +1,20 @@
 package at.technikum.server.http;
-
-import com.sun.net.httpserver.HttpExchange;
-import java.io.InputStream;
-import java.net.URI;
 import java.util.*;
-
 public class Request {
-    private final HttpExchange ex;
-    public Request(HttpExchange ex){ this.ex = ex; }
-
-    public String method(){ return ex.getRequestMethod(); }
-    public URI uri(){ return ex.getRequestURI(); }
-    public String path(){ return uri().getPath(); }
-    public Map<String,String> query(){
-        Map<String,String> map=new HashMap<>();
-        String q = uri().getQuery();
-        if(q==null) return map;
-        for(String p : q.split("&")){
-            String[] kv=p.split("=",2);
-            map.put(kv[0], kv.length>1? kv[1] : "");
-        }
-        return map;
-    }
-    public String header(String name){ return ex.getRequestHeaders().getFirst(name); }
-    public InputStream body(){ return ex.getRequestBody(); }
-    public HttpExchange raw(){ return ex; }
+    private Method method;
+    private String path;
+    private String query;
+    private String body;
+    private final Map<String,String> headers = new HashMap<>();
+    public String getMethod(){ return method.getVerb(); }
+    public void setMethod(Method method){ this.method = method; }
+    public String getPath(){ return path; }
+    public void setPath(String path){ this.path = path; }
+    public String getQuery(){ return query; }
+    public void setQuery(String query){ this.query = query; }
+    public String getBody(){ return body; }              // <-- String body (needed by readJson)
+    public void setBody(String body){ this.body = body; }
+    public String getHeader(String name){ return headers.get(name); }
+    public Map<String,String> getHeaders(){ return Collections.unmodifiableMap(headers); }
+    public void setHeader(String name,String value){ if(value!=null) headers.put(name,value); }
 }

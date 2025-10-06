@@ -1,29 +1,29 @@
 package at.technikum.application.common;
 
-import at.technikum.server.http.Request;
-import at.technikum.server.http.Response;
-import com.sun.net.httpserver.HttpExchange;
-import java.util.*;
-import java.util.regex.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 public class Router {
-    private final List<Route> routes = new ArrayList<>();
 
-    public Router add(Route r){ routes.add(r); return this; }
+    private List<Route> routes;
 
-    public void handle(HttpExchange ex){
-        Request req = new Request(ex);
-        Response res = new Response(ex);
-        String m = req.method();
-        String p = req.path();
+    public Router() {
+        this.routes = new ArrayList<>();
+    }
 
-        for(Route r : routes){
-            if(!r.method.equalsIgnoreCase(m)) continue;
-            if(Pattern.matches(r.pathPattern, p)){
-                r.handler.accept(ex);
-                return;
+    public Optional<Controller> findController(String path) {
+        for (Route route: this.routes) {
+            if (path.startsWith(route.getPath())) {
+                return Optional.of(route.getController());
             }
         }
-        res.text(at.technikum.server.http.Status.NOT_FOUND, "Not Found");
+        return Optional.empty();
+    }
+
+    public void addRoute(String path, Controller controller) {
+        routes.add(
+                new Route(path, controller)
+        );
     }
 }

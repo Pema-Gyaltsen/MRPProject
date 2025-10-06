@@ -1,7 +1,9 @@
 package at.technikum.server.http;
-
-public final class ContentType {
-    public static final String JSON = "application/json; charset=utf-8";
-    public static final String TEXT = "text/plain; charset=utf-8";
-    private ContentType() {}
+public enum ContentType {
+    TEXT_PLAIN("text/plain"),
+    TEXT_HTML("text/html"),
+    APPLICATION_JSON("application/json");
+    private final String mimeType;
+    ContentType(String mimeType) { this.mimeType = mimeType; }
+    public String getMimeType() { return mimeType; }
 }

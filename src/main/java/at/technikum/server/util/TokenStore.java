@@ -1,4 +1,4 @@
-package at.technikum.util;
+package at.technikum.server.util;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;

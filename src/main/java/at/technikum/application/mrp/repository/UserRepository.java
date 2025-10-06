@@ -1,7 +1,7 @@
 package at.technikum.application.mrp.repository;
 
 import at.technikum.application.mrp.model.User;
-import at.technikum.util.Db;
+import at.technikum.server.util.Db;
 
 import java.sql.*;
 

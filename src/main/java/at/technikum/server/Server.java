@@ -1,17 +1,21 @@
 package at.technikum.server;
-
-import at.technikum.application.common.Router;
+import at.technikum.application.common.Application;
 import com.sun.net.httpserver.HttpServer;
 import java.net.InetSocketAddress;
 
 public class Server {
-    private final HttpServer http;
-    public Server(Router router){
-        try{
-            http = HttpServer.create(new InetSocketAddress(8080), 0);
-            http.createContext("/", new Handler(router));
+    private HttpServer http;
+    private final int port;
+    private final Application app;
+
+    public Server(int port, Application app){ this.port=port; this.app=app; }
+
+    public void start() {
+        try {
+            http = HttpServer.create(new InetSocketAddress("localhost", port), 0);
+            http.createContext("/", new Handler(app));
             http.setExecutor(null);
-        }catch(Exception e){ throw new RuntimeException(e); }
+            http.start();
+        } catch (Exception e) { throw new RuntimeException(e); }
     }
-    public void start(){ http.start(); }
 }

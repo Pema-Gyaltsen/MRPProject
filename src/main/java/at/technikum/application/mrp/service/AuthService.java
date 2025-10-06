@@ -2,8 +2,8 @@ package at.technikum.application.mrp.service;
 
 import at.technikum.application.mrp.model.User;
 import at.technikum.application.mrp.repository.UserRepository;
-import at.technikum.util.Hashing;
-import at.technikum.util.TokenStore;
+import at.technikum.server.util.Hashing;
+import at.technikum.server.util.TokenStore;
 
 public class AuthService {
     private final UserRepository users = new UserRepository();

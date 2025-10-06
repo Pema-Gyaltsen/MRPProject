@@ -1,11 +1,14 @@
 package at.technikum.server.http;
 
 public enum Status {
-    OK(200), CREATED(201), NO_CONTENT(204),
-    BAD_REQUEST(400), UNAUTHORIZED(401), FORBIDDEN(403), NOT_FOUND(404),
-    CONFLICT(409),
-    INTERNAL_SERVER_ERROR(500);
-
-    public final int code;
-    Status(int c){ this.code = c; }
+    OK(200,"OK"), CREATED(201,"Created"), NO_CONTENT(204,"No Content"),
+    BAD_REQUEST(400,"Bad Request"), UNAUTHORIZED(401,"Unauthorized"),
+    FORBIDDEN(403,"Forbidden"), NOT_FOUND(404,"Not Found"),
+    METHOD_NOT_ALLOWED(405,"Method Not Allowed"),
+    CONFLICT(409,"Conflict"),
+    INTERNAL_SERVER_ERROR(500,"Internal Server Error");
+    private final int code; private final String message;
+    Status(int code,String message){ this.code=code; this.message=message; }
+    public int getCode(){ return code; }
+    public String getMessage(){ return message; }
 }
