@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.time.Instant;
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Media {
+public class MediaEntry {
     public Integer id;
     public Integer creatorId;
     public String title;

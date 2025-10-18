@@ -1,6 +1,6 @@
 package at.technikum.application.mrp.repository;
 
-import at.technikum.application.mrp.model.Media;
+import at.technikum.application.mrp.model.MediaEntry;
 import at.technikum.server.util.Db;
 
 import java.sql.*;
@@ -9,8 +9,8 @@ import java.util.List;
 
 public class MediaRepository {
 
-    private Media map(ResultSet rs) throws SQLException {
-        Media m = new Media();
+    private MediaEntry map(ResultSet rs) throws SQLException {
+        MediaEntry m = new MediaEntry();
         m.id = rs.getInt("id");
         m.creatorId = rs.getInt("creator_id");
         m.title = rs.getString("title");
@@ -24,7 +24,7 @@ public class MediaRepository {
         return m;
     }
 
-    public Media create(Media m){
+    public MediaEntry create(MediaEntry m){
         String sql = """
             INSERT INTO media(creator_id,title,description,media_type,release_year,age_restriction,genres)
             VALUES(?,?,?,?,?,?,?) RETURNING id, created_at, updated_at
@@ -47,7 +47,7 @@ public class MediaRepository {
         } catch (SQLException e){ throw new RuntimeException(e); }
     }
 
-    public Media findById(int id){
+    public MediaEntry findById(int id){
         String sql="SELECT * FROM media WHERE id=?";
         try(Connection c=Db.connect(); PreparedStatement ps=c.prepareStatement(sql)){
             ps.setInt(1, id);
@@ -57,17 +57,17 @@ public class MediaRepository {
         } catch(SQLException e){ throw new RuntimeException(e); }
     }
 
-    public List<Media> listAll(){
+    public List<MediaEntry> listAll(){
         String sql="SELECT * FROM media ORDER BY id";
         try(Connection c=Db.connect(); PreparedStatement ps=c.prepareStatement(sql);
             ResultSet rs=ps.executeQuery()){
-            List<Media> list = new ArrayList<>();
+            List<MediaEntry> list = new ArrayList<>();
             while(rs.next()) list.add(map(rs));
             return list;
         } catch(SQLException e){ throw new RuntimeException(e); }
     }
 
-    public Media update(Media m){
+    public MediaEntry update(MediaEntry m){
         String sql = """
             UPDATE media SET title=?, description=?, media_type=?, release_year=?, 
             age_restriction=?, genres=?, updated_at=NOW()

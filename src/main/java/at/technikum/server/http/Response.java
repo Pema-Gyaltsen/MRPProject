@@ -1,4 +1,5 @@
 package at.technikum.server.http;
+
 public class Response {
     private Status status;
     private ContentType contentType;

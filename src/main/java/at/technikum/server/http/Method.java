@@ -15,4 +15,4 @@ public enum Method {
     public String getVerb() {
         return verb;
     }
-}
+} //represent HTTP verbs (GET, POST, PUT, DELETE, ...)

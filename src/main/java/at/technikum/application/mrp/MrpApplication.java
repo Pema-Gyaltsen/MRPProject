@@ -12,7 +12,7 @@ public class MrpApplication implements Application {
     private final Router router = new Router();
 
     public MrpApplication() {
-        router.addRoute("/api/auth",  new at.technikum.application.mrp.controller.AuthController());
+        router.addRoute("/api/users",  new at.technikum.application.mrp.controller.AuthController()); //create an object, pass that object to router.addRoute
         router.addRoute("/api/media", new at.technikum.application.mrp.controller.MediaController());
     }
 
@@ -23,7 +23,7 @@ public class MrpApplication implements Application {
             return status(Status.NOT_FOUND);
         }
         try {
-            return target.get().handle(request);
+            return target.get().handle(request); //.get(): predefined method from java.util.Optional, returns contained Controller object in target
         } catch (IllegalArgumentException e) {        // e.g., bad id/validation
             return status(Status.BAD_REQUEST);
         } catch (Exception e) {                       // fallback
@@ -38,5 +38,5 @@ public class MrpApplication implements Application {
         r.setContentType(ContentType.TEXT_PLAIN);
         r.setBody(s.getMessage()); // "Not Found", etc.
         return r;
-    }
+    } //creates small text/plain error response
 }

@@ -47,7 +47,7 @@
 
     </dependencies>
 
-    <!-- Optional but handy: set Main class for “package → run jar” later -->
+    <!-- Optional: set Main class for “package → run jar” later -->
     <build>
         <plugins>
             <plugin>
